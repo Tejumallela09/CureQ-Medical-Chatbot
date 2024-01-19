@@ -1,5 +1,7 @@
-const express = require("express")
-const app = express()
-const registerRoutes=require("./registerRoutes")
-app.use("/register",registerRoutes)
-module.exports = app
+const express = require('express');
+const router = express.Router();
+const userRoutes = require('./userRoutes'); // Adjust the path accordingly
+
+router.use('/users', userRoutes);
+
+module.exports = router;

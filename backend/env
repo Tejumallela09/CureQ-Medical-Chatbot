@@ -1,1 +1,0 @@
-MONGO_URI = mongodb+srv://mongo_user:popcyj-2dohjo-ryvbuQ@cluster0.jqmdfft.mongodb.net/MCDatabase?retryWrites=true&w=majority

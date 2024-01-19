@@ -1,26 +1,21 @@
-const express = require('express')
-const app = express()
-const port = 3000
+require('dotenv').config(); // Add this line at the top
 
-const apiRoutes = require("./routes/apiRoutes")
+const express = require('express');
+const app = express();
+const apiRoutes = require('./routes/apiRoutes');
+const predictRoutes = require('./routes/predict');  // Include predict.js
 
-
-//mongodb connection
-const connectDB = require("./config/db")
+// MongoDB connection
+const connectDB = require("./config/db");
 connectDB();
-app.use('/api', apiRoutes)
 
-app.use((error, req, res, next) => {
-    console.error(error);
-    next(error)
-})
-app.use((error, req, res, next) => {
-    res.status(500).json({
-        message: error.message,
-        stack: error.stack
-    })
-})
+app.use(express.json()); // Middleware to parse JSON request bodies
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+app.use('/api', apiRoutes);
+// app.use('/predict', predictRoutes);  // Set up the route for predict.js
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
