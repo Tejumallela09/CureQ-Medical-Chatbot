@@ -1,61 +1,73 @@
-import React, { useEffect, useRef } from 'react';
-import io from 'socket.io-client';
+// ChatComponent.js
+import React, { useEffect } from 'react';
+import { io } from 'socket.io-client';
 
 const ChatComponent = () => {
-  const chatMessagesRef = useRef(null);
-  const userInputRef = useRef(null);
-  const socketRef = useRef(null);
-
   useEffect(() => {
-    socketRef.current = io();
+    const socket = io('http://localhost:3001'); // Update with your server URL
 
-    socketRef.current.on('output', (output) => {
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-input');
+    const submitBtn = document.getElementById('submit-btn');
+
+    // Handle Python script execution
+    const runPythonScript = (input) => {
+      socket.emit('input', input);
+    };
+
+    function simulateUserInput(message) {
+      if (message !== '..') {
+        appendMessage('User', message);
+        runPythonScript(message);
+      }
+      userInput.value = '';
+    }
+
+    submitBtn.addEventListener('click', () => {
+      const inputText = userInput.value.trim();
+      if (inputText !== '') {
+        simulateUserInput(inputText);
+
+        setTimeout(() => {
+          simulateUserInput('..');
+        }, 500);
+      }
+    });
+
+    socket.on('output', (output) => {
       processOutput(output);
     });
 
-    // Clean up the socket connection when the component unmounts
+    function appendMessage(sender, message) {
+      const p = document.createElement('p');
+      p.innerHTML = `<strong>${sender}:</strong> ${message}`;
+      chatMessages.appendChild(p);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function processOutput(output) {
+      if (output.includes('Okay. From how many days')) {
+        const questionIndex = output.indexOf('?');
+        if (questionIndex !== -1) {
+          output = output.substring(questionIndex + 1).trim();
+        }
+        chatMessages.innerHTML += `<p><strong>Chatbot:</strong> ${output}</p>`;
+      } else {
+        appendMessage('Chatbot', output);
+      }
+    }
+
     return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
+      socket.disconnect();
     };
-  }, []); // Empty dependency array to run the effect only once on mount
-
-  const submitBtnClickHandler = () => {
-    const inputText = userInputRef.current.value.trim();
-    if (inputText !== '') {
-      appendMessage('User', inputText);
-      socketRef.current.emit('input', inputText);
-      userInputRef.current.value = '';
-    }
-  };
-
-  const appendMessage = (sender, message) => {
-    chatMessagesRef.current.innerHTML += `<p><strong>${sender}:</strong> ${message}</p>`;
-    chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
-  };
-
-  const processOutput = (output) => {
-    // Check the type of output and update the client accordingly
-    if (output.includes('Okay. From how many days ?Are you experiencing any (yes/no)')) {
-      output = 'Are you experiencing any (yes/no) ';
-    } else {
-      const questionMarkIndex = output.indexOf('?');
-      if (questionMarkIndex !== -1) {
-        output = output.substring(0, questionMarkIndex + 1);
-      }
-    }
-    appendMessage('Chatbot', output);
-  };
+  }, []);
 
   return (
     <div id="chat-container">
-      <div id="chat-messages" ref={chatMessagesRef}></div>
+      <div id="chat-messages"></div>
       <div id="input-container">
-        <input type="text" id="user-input" placeholder="Type your message..." ref={userInputRef} />
-        <button id="submit-btn" onClick={submitBtnClickHandler}>
-          Submit
-        </button>
+        <input type="text" id="user-input" placeholder="Type your message..." />
+        <button id="submit-btn">Submit</button>
       </div>
     </div>
   );

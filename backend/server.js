@@ -1,19 +1,27 @@
-require('dotenv').config(); // Add this line at the top
+require('dotenv').config();
 
 const express = require('express');
 const app = express();
 const apiRoutes = require('./routes/apiRoutes');
-const predictRoutes = require('./routes/predict');  // Include predict.js
+const chatRoute = require('./predict'); // Correct the path to predict.js
+const path = require('path');
 
 // MongoDB connection
 const connectDB = require("./config/db");
 connectDB();
 
-app.use(express.json()); // Middleware to parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api', apiRoutes);
-// app.use('/predict', predictRoutes);  // Set up the route for predict.js
+
+// Use the router in the /chat route
+app.use('/chat', chatRoute);
+
+// Serve the React app
+app.use(express.static(path.join(__dirname, 'build', 'frontend')));
+app.get('/user/chat', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

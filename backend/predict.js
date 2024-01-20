@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router();
 const bodyParser = require('body-parser');
 const { PythonShell } = require('python-shell');
 const path = require('path');
@@ -9,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-const port = 3000;
+const port = 3001;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -61,10 +62,5 @@ io.on('connection', (socket) => {
     });
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// server.listen(port, () => {
-//     console.log(`Server is running at http://localhost:${port}`);
-// });
+// Expose the router for use in server.js
+module.exports = router;

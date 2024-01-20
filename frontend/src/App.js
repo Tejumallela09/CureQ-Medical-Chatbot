@@ -6,7 +6,6 @@ import FooterComponent from './Components/FooterComponent';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import PredictPage from './pages/predict';
 import UserChatHistory from './pages/user/UserChatHistoryPage';
 import UserAppointmentDetailsPage from './pages/user/UserAppointmentDetailsPage';
 import ProtectedRoutesComponents from './Components/ProtectedRoutesComponent';
@@ -21,8 +20,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route element={<ProtectedRoutesComponents />}>
-          <Route path="/user/chat" element={<ChatComponent />} /> {/* Add this line */}
-          <Route path="/chat" element={<PredictPage />} />
+        <Route path="/user/chat" element={<ChatComponent />} />
           <Route path="/user/chat-history" element={<UserChatHistory />} />
           <Route
             path="/user/appointment-details"
