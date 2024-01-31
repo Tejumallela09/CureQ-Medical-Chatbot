@@ -19,8 +19,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route element={<ProtectedRoutesComponents />}>
         <Route path="/user/chat" element={<ChatComponent />} />
+        <Route element={<ProtectedRoutesComponents />}>
+        
           <Route path="/user/chat-history" element={<UserChatHistory />} />
           <Route
             path="/user/appointment-details"

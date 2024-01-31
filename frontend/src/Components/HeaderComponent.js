@@ -6,8 +6,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-
+import { logout } from '../redux/actions/userActions';
+import {useDispatch} from "react-redux";
 const HeaderComponent = () => {
+  const dispatch=useDispatch();
   const expandValue = 'lg'; // Choose the desired expand value
   const [showOffcanvas, setShowOffcanvas] = useState(false);
 
@@ -46,8 +48,8 @@ const HeaderComponent = () => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="flex-column">
-                <Nav.Link href="#action1">Home</Nav.Link>
-                <Nav.Link href="#action2">Link</Nav.Link>
+                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="#action2" onClick={()=>dispatch(logout())}>Logout</Nav.Link>
                 <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                   <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                   <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>

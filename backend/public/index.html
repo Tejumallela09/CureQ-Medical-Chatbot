@@ -1,232 +1,107 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Script Chat</title>
-    <style>
-        #chat-container {
-            width: 400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #chat-messages {
-            height: 300px;
-            overflow-y: scroll;
-            border-bottom: 1px solid #ccc;
-            margin-bottom: 10px;
-        }
-
-        #input-container {
-            display: flex;
-        }
-
-        #user-input {
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        #submit-btn {
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="chat-container">
-        <div id="chat-messages"></div>
-        <div id="input-container">
-            <input type="text" id="user-input" placeholder="Type your message...">
-            <button id="submit-btn">Submit</button>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        $(document).ready(function () {
-            const socket = io();
-            const chatMessages = $('#chat-messages');
-            const userInput = $('#user-input');
-            const submitBtn = $('#submit-btn');
-
-            submitBtn.click(function () {
-                const inputText = userInput.val().trim();
-                if (inputText !== '') {
-                    appendMessage('User', inputText);
-                    socket.emit('input', inputText);
-                    userInput.val('');
-                }
-            });
-
-            socket.on('output', function (output) {
-                appendMessage('Chatbot', output);
-            });
-
-            function appendMessage(sender, message) {
-                chatMessages.append(`<p><strong>${sender}:</strong> ${message}</p>`);
-                chatMessages.scrollTop(chatMessages[0].scrollHeight);
-            }
-        });
-    </script>
-</body>
-
-</html>
--->
-
-<!--<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Script Chat</title>
-    <style>
-        #chat-container {
-            width: 400px;
-            margin: auto;
-            padding: 20px;
-            height: auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #chat-messages {
-            height: 300px;
-            overflow-y: scroll;
-            border-bottom: 1px solid #ccc;
-            margin-bottom: 10px;
-        }
-
-        #input-container {
-            display: flex;
-        }
-
-        #user-input {
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        #submit-btn {
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="chat-container">
-        <div id="chat-messages"></div>
-        <div id="input-container">
-            <input type="text" id="user-input" placeholder="Type your message...">
-            <button id="submit-btn">Submit</button>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        $(document).ready(function () {
-            const socket = io();
-            const chatMessages = $('#chat-messages');
-            const userInput = $('#user-input');
-            const submitBtn = $('#submit-btn');
-
-            submitBtn.click(function () {
-                const inputText = userInput.val().trim();
-                if (inputText !== '') {
-                    appendMessage('User', inputText);
-                    socket.emit('input', inputText);
-                    userInput.val('');
-                }
-            });
-
-            socket.on('output', function (output) {
-                processOutput(output);
-            });
-
-            function appendMessage(sender, message) {
-                chatMessages.append(`<p><strong>${sender}:</strong> ${message}</p>`);
-                chatMessages.scrollTop(chatMessages[0].scrollHeight);
-            }
-
-            function processOutput(output) {
-                // Check the type of output and update the client accordingly
-                if (output.includes('Okay. From how many days ?Are you experiencing any (yes/no)')) {
-                    output = 'Are you experiencing any (yes/no) ';
-                }
-                else {
-                    const questionMarkIndex = output.indexOf('?');
-                    if (questionMarkIndex !== -1) {
-                        output = output.substring(0, questionMarkIndex + 1);
-                    }
-                }
-                appendMessage('Chatbot', output);
-            }
-        });
-    </script>
-</body>
-
-</html>-->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Script Chat</title>
+    <title>CureQ</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-WBloJmZg6sJLFir9Ik8JdCgNUZK4HZbHHh1PJO8v1fVi+UaJS6fN5iPMeK4uqZmKeSz9C0HXE4O8l+uIYbP5JAg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        #chat-container {
-            width: 400px;
-            margin: auto;
-            padding: 20px;
-            height: auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
         #chat-messages {
-            height: 300px;
+            flex: 1;
             overflow-y: scroll;
-            border-bottom: 1px solid #ccc;
+            padding: 20px;
+        }
+
+        .message-box {
             margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .user-message {
+            background-color: #b3d1ff;
+            /* light blue */
+        }
+
+        .chatbot-message {
+            background-color: #c2f0c2;
+            /* light green */
+        }
+
+        .user-icon::before {
+            content: '\1F464';
+            /* Unicode for the user icon */
+            margin-right: 5px;
+            font-size: 20px;
+            /* Adjust the font size as needed */
+        }
+
+        .user-icon {
+            color: #121313;
+            /* Icon color */
         }
 
         #input-container {
             display: flex;
+            padding: 20px;
         }
 
         #user-input {
             flex: 1;
             margin-right: 10px;
+            font-size: 16px;
         }
 
         #submit-btn {
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #appointment-box {
+            display: none;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-btn {
+            margin-right: 10px;
+            font-size: 16px;
             cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-    
-    <div id="chat-container">
-        <div id="chat-messages"></div>
-        <div id="input-container">
-            <input type="text" id="user-input" placeholder="Type your message...">
-            <button id="submit-btn">Submit</button>
-        </div>
+    <div id="chat-messages"></div>
+    <div id="input-container">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button id="submit-btn">Submit</button>
     </div>
 
+    <div id="appointment-box">
+        <p>Would you like to book an appointment?</p>
+        <button class="appointment-btn" onclick="handleAppointment('yes')">Yes</button>
+        <button class="appointment-btn" onclick="handleAppointment('no')">No</button>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <!-- ... (your existing HTML content) ... -->
 
     <script>
         $(document).ready(function () {
@@ -235,12 +110,22 @@
             const userInput = $('#user-input');
             const submitBtn = $('#submit-btn');
 
+            function simulateUserInput(message) {
+                if (message !== "..") {
+                    appendMessageuser(message, 'user-message', 'user-icon');
+                }
+                socket.emit('input', message);
+                userInput.val('');
+            }
+
             submitBtn.click(function () {
                 const inputText = userInput.val().trim();
                 if (inputText !== '') {
-                    appendMessage('User', inputText);
-                    socket.emit('input', inputText);
-                    userInput.val(''); // Clear input after submission
+                    simulateUserInput(inputText);
+
+                    setTimeout(function () {
+                        simulateUserInput('..');
+                    }, 500);
                 }
             });
 
@@ -248,29 +133,55 @@
                 processOutput(output);
             });
 
-            function appendMessage(sender, message) {
-                chatMessages.append(`<p><strong>${sender}:</strong> ${message}</p>`);
+            function appendMessageuser(message, className, iconClass) {
+                const messageBox = $('<div class="message-box ' + className + '"></div>');
+
+                messageBox.append(<p><i class="${iconClass}"></i> ${message}</p>);
+                chatMessages.append(messageBox);
+                chatMessages.scrollTop(chatMessages[0].scrollHeight);
+            }
+
+            function appendMessage(message, className) {
+                const messageBox = $('<div class="message-box ' + className + '"></div>');
+
+                messageBox.append(<p> ${message}</p>);
+                chatMessages.append(messageBox);
                 chatMessages.scrollTop(chatMessages[0].scrollHeight);
             }
 
             function processOutput(output) {
-                // Check the type of output and update the client accordingly
-                if (output.includes('Okay. From how many days ?Are you experiencing any (yes/no)')) {
-                    output = 'Are you experiencing any (yes/no) ';
+                if (output.includes('Okay. From how many days')) {
+                    const questionIndex = output.indexOf('?');
+                    if (questionIndex !== -1) {
+                        output = output.substring(questionIndex + 1).trim();
+                    }
+                    appendMessage(output, 'chatbot-message');
+                }
+                else if (output.includes('Would you like to book an appointment?')) {
+                    $('#input-container').hide();
+                    $('#appointment-box').show();
                 }
                 else {
-                    const questionMarkIndex = output.indexOf('?');
-                    if (questionMarkIndex !== -1) {
-                        output = output.substring(0, questionMarkIndex + 1);
-                    }
+                    appendMessage(output, 'chatbot-message');
                 }
-                appendMessage('Chatbot', output);
             }
+            function handleAppointment(response) {
+
+                if (response.toLowerCase() === 'yes') {
+                    //window.location.href = 'frontend\\src\\Pages\\user\UserAppointmentDetailsPage.js';
+                } else {
+
+                    $('#appointment-box').hide();
+                    appendMessage('Thanks for chatting!', 'chatbot-message');
+
+
+
+                }
+
+            }
+
         });
     </script>
-
-    <!-- ... (your existing HTML content) ... -->
-
 </body>
 
 </html>
