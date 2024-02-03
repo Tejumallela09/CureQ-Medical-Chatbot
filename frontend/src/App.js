@@ -10,7 +10,6 @@ import UserChatHistory from './pages/user/UserChatHistoryPage';
 import UserAppointmentDetailsPage from './pages/user/UserAppointmentDetailsPage';
 import ProtectedRoutesComponents from './Components/ProtectedRoutesComponent';
 import ChatComponent from './Components/ChatComponent'; // Import ChatComponent
-
 function App() {
   return (
     <Router>

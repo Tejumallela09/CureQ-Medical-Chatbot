@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CureQ</title>
-
+    <!-- Add Font Awesome CDN for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-WBloJmZg6sJLFir9Ik8JdCgNUZK4HZbHHh1PJO8v1fVi+UaJS6fN5iPMeK4uqZmKeSz9C0HXE4O8l+uIYbP5JAg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -43,11 +43,9 @@
         }
 
         .user-icon::before {
-            content: '\1F464';
-            /* Unicode for the user icon */
+            content: '\1F464'; /* Unicode for the user icon */
             margin-right: 5px;
-            font-size: 20px;
-            /* Adjust the font size as needed */
+            font-size: 20px; /* Adjust the font size as needed */
         }
 
         .user-icon {
@@ -70,7 +68,6 @@
             cursor: pointer;
             font-size: 16px;
         }
-
         #appointment-box {
             display: none;
             padding: 20px;
@@ -94,11 +91,10 @@
         <input type="text" id="user-input" placeholder="Type your message...">
         <button id="submit-btn">Submit</button>
     </div>
-
     <div id="appointment-box">
         <p>Would you like to book an appointment?</p>
-        <button class="appointment-btn" onclick="handleAppointment('yes')">Yes</button>
-        <button class="appointment-btn" onclick="handleAppointment('no')">No</button>
+        <button class="appointment-btn" data-response="yes">Yes</button>
+        <button class="appointment-btn" data-response="no">No</button>        
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -136,7 +132,7 @@
             function appendMessageuser(message, className, iconClass) {
                 const messageBox = $('<div class="message-box ' + className + '"></div>');
 
-                messageBox.append(<p><i class="${iconClass}"></i> ${message}</p>);
+                messageBox.append(`<p><i class="${iconClass}"></i> ${message}</p>`);
                 chatMessages.append(messageBox);
                 chatMessages.scrollTop(chatMessages[0].scrollHeight);
             }
@@ -144,7 +140,7 @@
             function appendMessage(message, className) {
                 const messageBox = $('<div class="message-box ' + className + '"></div>');
 
-                messageBox.append(<p> ${message}</p>);
+                messageBox.append(`<p> ${message}</p>`);
                 chatMessages.append(messageBox);
                 chatMessages.scrollTop(chatMessages[0].scrollHeight);
             }
@@ -166,21 +162,20 @@
                 }
             }
             function handleAppointment(response) {
+      if (response.toLowerCase() === 'yes') {
+        window.location.href = 'http://localhost:3000/';
+      } else {
+        window.location.href = 'http://localhost:3001/';
+      }
+    }
 
-                if (response.toLowerCase() === 'yes') {
-                    //window.location.href = 'frontend\\src\\Pages\\user\UserAppointmentDetailsPage.js';
-                } else {
-
-                    $('#appointment-box').hide();
-                    appendMessage('Thanks for chatting!', 'chatbot-message');
-
-
-
-                }
-
-            }
-
+    // Attach the function to the "Yes" and "No" buttons
+    $('.appointment-btn').click(function () {
+      const response = $(this).data('response');
+      handleAppointment(response);
+    });
         });
+
     </script>
 </body>
 

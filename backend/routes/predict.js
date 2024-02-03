@@ -63,12 +63,12 @@ io.on('connection', (socket) => {
 
 // Expose the app for use in server.js
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, ''));
 });
 
 server.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
-
+console.log("Running");
 // Export the app instance
 module.exports = app;

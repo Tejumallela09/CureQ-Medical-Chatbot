@@ -32,8 +32,8 @@ const LoginPageComponent = ({ loginUserApiRequest,reduxDispatch, setReduxUserSta
                 reduxDispatch(setReduxUserState(res.userLoggedIn));
             }
 
-            if (res.success === "user logged in" && !res.userLoggedIn.isAdmin) window.location.href = '/'
-            else window.location.href = '/'
+            if (res.success === "user logged in" && !res.userLoggedIn.isAdmin) window.location.href = 'http://localhost:3001/'
+            else window.location.href = ''
 
         })
         .catch((er) =>

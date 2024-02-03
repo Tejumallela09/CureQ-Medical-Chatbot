@@ -134,30 +134,10 @@
                         output = output.substring(questionIndex + 1).trim();
                     }
                     appendMessage(output, 'chatbot-message');
-                }
-                else if (output.includes('Would you like to book an appointment?')) {
-                    $('#input-container').hide();
-                    $('#appointment-box').show();
-                }
-                else {
+                } else {
                     appendMessage(output, 'chatbot-message');
                 }
             }
-            function handleAppointment(response) {
-
-                if (response.toLowerCase() === 'yes') {
-                    //window.location.href = 'frontend\\src\\Pages\\user\UserAppointmentDetailsPage.js';
-                } else {
-
-                    $('#appointment-box').hide();
-                    appendMessage('Thanks for chatting!', 'chatbot-message');
-
-
-
-                }
-
-            }
-
         });
     </script>
 </body>
